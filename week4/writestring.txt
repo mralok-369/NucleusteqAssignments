@@ -1,0 +1,1 @@
+Hello world writing the character string in input stream.
