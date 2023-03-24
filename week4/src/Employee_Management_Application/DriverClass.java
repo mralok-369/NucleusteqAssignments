@@ -28,6 +28,7 @@ public class DriverClass {
 			System.out.println("2.DISPLAY");
 			System.out.println("3.SEARCH");
 			System.out.println("4.DELETE");
+			System.out.println("5.UPDATE");
 			System.out.println("0.EXIT");
 			System.out.println("Enter your choice : ");
 			choice = sc.nextInt();
@@ -122,6 +123,43 @@ public class DriverClass {
 						oos.writeObject(list);
 						oos.close();
 						System.out.println("Record deleted successfully...!!");
+					} else {
+						System.out.println("Record not found ...!!");
+					}
+					System.out.println("--------------------------------------------");
+				} else {
+					System.out.println("File not exists...!!");
+				}
+				break;
+			case 5: 
+				// case 5 for update the data in file
+				if (file.isFile()) { // check if file is there or not
+					ois = new ObjectInputStream(new FileInputStream(file));
+					list = (ArrayList<EmployeeDetails>)ois.readObject();
+					ois.close();
+					
+					Boolean found = false;
+					System.out.println("Enter employee Id to update: ");
+					int empNo = sc.nextInt();
+					System.out.println("--------------------------------------------");
+					li = list.listIterator();
+					while (li.hasNext()) {
+						EmployeeDetails emp = (EmployeeDetails)li.next();
+						if (emp.empId == empNo) {
+							System.out.println("Enter new employee name: ");
+							String ename = sc1.nextLine();
+							System.out.println("Enter new salary: ");
+							int salary = sc.nextInt();
+							li.set(new EmployeeDetails(empNo, ename, salary));
+							found = true;
+						}
+					}
+					if (found) {
+						// update the record in file after deletion
+						oos = new ObjectOutputStream(new FileOutputStream(file));
+						oos.writeObject(list);
+						oos.close();
+						System.out.println("Record updated successfully...!!");
 					} else {
 						System.out.println("Record not found ...!!");
 					}
